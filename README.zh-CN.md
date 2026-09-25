@@ -2,7 +2,7 @@
 
 # lerobot_android
 
-用闲置手机当机器人上的电脑，代替 LeKiwi 等移动机器人上的树莓派。现在可以遥操单臂 XLeRobot、用键盘开底盘，并把一集数据录成 LeRobot 数据集。手机负责从臂总线和摄像头，电脑负责主臂以及 `lerobot-teleoperate` / `lerobot-record`。最终在手机上运行策略推理。这里的演示是用 XLeRobot 0.4.0 做的。
+手机不需要 root，装上就能直接用。用手机自带的前置相机，把 USB 相机和舵机控制板接到手机的 USB OTG 上，就可以控制移动机器人。
 
 ![手机装在机器人上](media/phone-on-robot.gif)
 
