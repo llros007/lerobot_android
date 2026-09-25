@@ -8,8 +8,6 @@ Use an idle phone as the computer on a robot, in place of the Raspberry Pi on Le
 
 The phone sits on the robot and shows the eyes. The follower serial adapter and the wrist camera plug into the phone. The PC records the front camera, the wrist camera, the arm, and the base together:
 
-![Recorded front and wrist views](media/record-front-wrist.gif)
-
 ![Recorded front and wrist views](media/record-base.gif)
 
 ## What it does
