@@ -59,7 +59,21 @@ The phone and the computer must be on the same LAN. The app shows the phone IP. 
 
 ## 3. Calibrate once
 
-`host://` cannot run interactive calibration. Plug the follower into the computer once, calibrate it, then move that USB adapter back to the phone. Use the same `--robot.id` afterwards. On this computer the leader is `/dev/ttyACM1`. The follower calibration id is `xlerobot_single`; change the port to the device node it gets while plugged into the computer.
+`host://` cannot run interactive calibration. Plug the follower into the computer once, calibrate it, then move that USB adapter back to the phone. Use the same `--robot.id` afterwards. `<leader-port>` is the leader device on the computer, such as `/dev/ttyACM0`. The follower port is the device node it gets while plugged into the computer.
+
+```bash
+lerobot-calibrate \
+  --teleop.type=so101_leader \
+  --teleop.port=<leader-port> \
+  --teleop.id=<leader-id>
+
+lerobot-calibrate \
+  --robot.type=xlerobot \
+  --robot.port=<follower-port-on-pc> \
+  --robot.id=<robot-id>
+```
+
+Example:
 
 ```bash
 lerobot-calibrate \
@@ -75,7 +89,20 @@ lerobot-calibrate \
 
 ## 4. Teleoperate one arm
 
-Keep this terminal focused. `i` / `k` drive forward and back, `u` / `o` turn left and right, `n` / `m` raise and lower speed. The phone IP below is the one shown in the app, `192.168.124.10`.
+Keep this terminal focused. `i` / `k` drive forward and back, `u` / `o` turn left and right, `n` / `m` raise and lower speed. `<phone-ip>` is the address shown in the app.
+
+```bash
+conda activate lerobot
+lerobot-teleoperate \
+  --robot.type=xlerobot \
+  --robot.port=host://<phone-ip> \
+  --robot.id=<robot-id> \
+  --teleop.type=so101_leader \
+  --teleop.port=<leader-port> \
+  --teleop.id=<leader-id>
+```
+
+Example:
 
 ```bash
 conda activate lerobot
@@ -90,7 +117,31 @@ lerobot-teleoperate \
 
 ## 5. Record one episode
 
-During recording, `n` raises speed and does not end the episode. Right arrow ends the episode early, `r` or Left re-records, `q` quits. The front camera is the phone's built-in camera. The wrist camera is the USB camera. Both are 1280×720 at 30 fps.
+During recording, `n` raises speed and does not end the episode. Right arrow ends the episode early, `r` or Left re-records, `q` quits. Set both cameras to 1280×720 at 30 fps. Use the wrist URL from `info.json`.
+
+```bash
+conda activate lerobot
+lerobot-record \
+  --robot.type=xlerobot \
+  --robot.port=host://<phone-ip> \
+  --robot.id=<robot-id> \
+  --teleop.type=so101_leader \
+  --teleop.port=<leader-port> \
+  --teleop.id=<leader-id> \
+  --play_sounds=false \
+  --robot.cameras="{ front: {type: mjpeg, url: http://<phone-ip>:8080/cam/front/mjpeg, width: 1280, height: 720, fps: 30, warmup_s: 10}, wrist: {type: mjpeg, url: http://<phone-ip>:8080/uvc/<uvc-id>/mjpeg, width: 1280, height: 720, fps: 30, warmup_s: 10} }" \
+  --dataset.repo_id=local/xlerobot_1ep \
+  --dataset.root=<dataset-dir> \
+  --dataset.single_task="teleop demo" \
+  --dataset.num_episodes=1 \
+  --dataset.episode_time_s=30 \
+  --dataset.reset_time_s=5 \
+  --dataset.push_to_hub=false \
+  --dataset.streaming_encoding=true \
+  --dataset.encoder_threads=2
+```
+
+Example:
 
 ```bash
 conda activate lerobot
@@ -113,6 +164,16 @@ lerobot-record \
   --dataset.streaming_encoding=true \
   --dataset.encoder_threads=2
 ```
+
+```bash
+lerobot-dataset-viz \
+  --repo-id local/xlerobot_1ep \
+  --root <dataset-dir> \
+  --episode-index 0 \
+  --display-compressed-images
+```
+
+Example:
 
 ```bash
 lerobot-dataset-viz \

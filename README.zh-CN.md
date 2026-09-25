@@ -59,7 +59,21 @@ pip install -e "lerobot[feetech]"
 
 ## 3. 先标定一次
 
-`host://` 不能做交互式标定。把从臂插到电脑上标定一次，再把这个 USB 转接插回手机。之后继续用同一个 `--robot.id`。下面主臂就是这台电脑上的 `/dev/ttyACM1`。从臂标定名用 `xlerobot_single`，串口换成它插在电脑上时的设备名。
+`host://` 不能做交互式标定。把从臂插到电脑上标定一次，再把这个 USB 转接插回手机。之后继续用同一个 `--robot.id`。`<主臂串口>` 是主臂在电脑上的设备，例如 `/dev/ttyACM0`。从臂标定用它插在电脑上时的串口。
+
+```bash
+lerobot-calibrate \
+  --teleop.type=so101_leader \
+  --teleop.port=<主臂串口> \
+  --teleop.id=<主臂标定名>
+
+lerobot-calibrate \
+  --robot.type=xlerobot \
+  --robot.port=<从臂在电脑上的串口> \
+  --robot.id=<机器人标定名>
+```
+
+例如：
 
 ```bash
 lerobot-calibrate \
@@ -75,7 +89,20 @@ lerobot-calibrate \
 
 ## 4. 单臂遥操
 
-焦点留在这个终端。`i` / `k` 前进后退，`u` / `o` 左右转，`n` / `m` 加减速度。手机 IP 用 App 上看到的地址，这里是 `192.168.124.10`。
+焦点留在这个终端。`i` / `k` 前进后退，`u` / `o` 左右转，`n` / `m` 加减速度。`<手机IP>` 用 App 上看到的地址。
+
+```bash
+conda activate lerobot
+lerobot-teleoperate \
+  --robot.type=xlerobot \
+  --robot.port=host://<手机IP> \
+  --robot.id=<机器人标定名> \
+  --teleop.type=so101_leader \
+  --teleop.port=<主臂串口> \
+  --teleop.id=<主臂标定名>
+```
+
+例如：
 
 ```bash
 conda activate lerobot
@@ -90,7 +117,31 @@ lerobot-teleoperate \
 
 ## 5. 录制一集
 
-录制时 `n` 是加速，不用来结束本集。右方向键提前结束，`r` 或左方向键重录，`q` 退出。前置是手机自带摄像头，腕部是 USB 摄像头，都是 1280×720、30 fps。
+录制时 `n` 是加速，不用来结束本集。右方向键提前结束，`r` 或左方向键重录，`q` 退出。两路相机都写 1280×720、30 fps。腕部地址换成 `info.json` 里的 UVC 项。
+
+```bash
+conda activate lerobot
+lerobot-record \
+  --robot.type=xlerobot \
+  --robot.port=host://<手机IP> \
+  --robot.id=<机器人标定名> \
+  --teleop.type=so101_leader \
+  --teleop.port=<主臂串口> \
+  --teleop.id=<主臂标定名> \
+  --play_sounds=false \
+  --robot.cameras="{ front: {type: mjpeg, url: http://<手机IP>:8080/cam/front/mjpeg, width: 1280, height: 720, fps: 30, warmup_s: 10}, wrist: {type: mjpeg, url: http://<手机IP>:8080/uvc/<UVC设备号>/mjpeg, width: 1280, height: 720, fps: 30, warmup_s: 10} }" \
+  --dataset.repo_id=local/xlerobot_1ep \
+  --dataset.root=<数据集目录> \
+  --dataset.single_task="teleop demo" \
+  --dataset.num_episodes=1 \
+  --dataset.episode_time_s=30 \
+  --dataset.reset_time_s=5 \
+  --dataset.push_to_hub=false \
+  --dataset.streaming_encoding=true \
+  --dataset.encoder_threads=2
+```
+
+例如：
 
 ```bash
 conda activate lerobot
@@ -113,6 +164,16 @@ lerobot-record \
   --dataset.streaming_encoding=true \
   --dataset.encoder_threads=2
 ```
+
+```bash
+lerobot-dataset-viz \
+  --repo-id local/xlerobot_1ep \
+  --root <数据集目录> \
+  --episode-index 0 \
+  --display-compressed-images
+```
+
+例如：
 
 ```bash
 lerobot-dataset-viz \
