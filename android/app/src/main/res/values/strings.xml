@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">设备桥</string>
+    <string name="service_running">设备桥正在运行</string>
+    <string name="service_channel">设备桥服务</string>
+</resources>

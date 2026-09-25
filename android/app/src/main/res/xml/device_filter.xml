@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- UVC / USB Video Class -->
+    <usb-device class="14" />
+    <!-- CDC ACM -->
+    <usb-device class="2" />
+    <!-- FTDI -->
+    <usb-device vendor-id="1027" />
+    <!-- Prolific PL2303 -->
+    <usb-device vendor-id="1659" />
+    <!-- Silicon Labs CP210x -->
+    <usb-device vendor-id="4292" />
+    <!-- QinHeng CH340 / CH341 / CH343 -->
+    <usb-device vendor-id="6790" />
+    <!-- Arduino -->
+    <usb-device vendor-id="9025" />
+    <!-- Raspberry Pi Pico -->
+    <usb-device vendor-id="11914" />
+    <!-- STM32 VCP -->
+    <usb-device vendor-id="1155" />
+    <!-- Espressif -->
+    <usb-device vendor-id="12346" />
+</resources>
