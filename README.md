@@ -2,7 +2,7 @@
 
 # lerobot_android
 
-Use an idle phone as the computer on a robot, in place of the Raspberry Pi on LeKiwi and other mobile bases. It teleoperates a single-arm XLeRobot, drives the wheels from the keyboard, and records a LeRobot dataset. The phone runs the follower bus and the cameras. A PC runs the leader arm and `lerobot-teleoperate` / `lerobot-record`. The end goal is to run policy inference on the phone.
+Use an idle phone as the computer on a robot, in place of the Raspberry Pi on LeKiwi and other mobile bases. It teleoperates a single-arm XLeRobot, drives the wheels from the keyboard, and records a LeRobot dataset. The phone runs the follower bus and the cameras. A PC runs the leader arm and `lerobot-teleoperate` / `lerobot-record`. The end goal is to run policy inference on the phone. The demo here was made with XLeRobot 0.4.0.
 
 ![Phone mounted on the robot](media/phone-on-robot.gif)
 
