@@ -2,7 +2,7 @@
 
 # lerobot_android
 
-The phone does not need root and can be used as it is. It uses the built-in front camera. A USB camera and the servo control board plug straight into the phone over USB OTG to control a mobile robot.
+The phone does not need root and can be used as it is. It uses the phone's built-in front camera. A USB camera and the servo control board plug straight into the phone over USB OTG to control a mobile robot.
 
 ![Phone mounted on the robot](media/phone-on-robot.gif)
 
